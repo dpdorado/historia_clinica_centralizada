@@ -1,6 +1,6 @@
 # Sistema de gestión de historia clínica centralizada
 
-Desarrollo de servicio web (API REST) qpara un sistema de gestión de historia clínica centralizada.
+Desarrollo de servicio web (API REST) para un sistema de gestión de historia clínica centralizada.
 
 #
 Requerimientos del proyecto:
@@ -25,7 +25,7 @@ Condiciones:
 
 * Si el usuario es de tipo paciente debe registrar: Nombre, Dirección, fecha de nacimiento.
 
-5.Registro de usuario tipo Médico por parte de un usuario Hospital.
+5. Registro de usuario tipo Médico por parte de un usuario Hospital.
 
 Condiciones:
 
@@ -35,7 +35,7 @@ Condiciones:
 
 6. Todos los usuarios deben cambiar y/o recuperar su contraseña cuando lo deseen.
 
-7. Permitir a un usuario de Tipo Médico registrar observaciones médicas yestado de salud de un usuario de tipo Paciente.
+7. Permite a un usuario de Tipo Médico registrar observaciones médicas yestado de salud de un usuario de tipo Paciente.
 
 Condiciones:
 
