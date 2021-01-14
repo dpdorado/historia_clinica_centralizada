@@ -3,6 +3,7 @@
 from flask import request, json, Response, Blueprint,g 
 from ..models.UserModel import UserModel, UserSchema
 from ..shared.Authentication import Auth
+from ..utils.SMTP import SMTP
 
 user_api = Blueprint('users', __name__)
 user_schema = UserSchema()
@@ -14,10 +15,11 @@ def create():
   """
 
   req_data = request.get_json()    
-  data = user_schema.load(req_data) 
+  data = user_schema.load(req_data,partial=("active",))
   
-  """if error:
-    return custom_response(error, 400)"""
+  if data.get('rol_id') == 3:
+    message = {'error': 'NOT FOUND'}
+    return custom_response(message, 400)
   
   # check if user already exist in the db
   user_in_db = UserModel.get_user_by_email(data.get('email'))
@@ -27,13 +29,16 @@ def create():
     return custom_response(message, 400)
   
   user = UserModel(data)
-  user.save()
-
+  user.save()  
+  
+  """smtp = SMTP('doradodaniel14@gmail.com', data.get('email'), 'Confirmación de cuneta', 'Confirme si usted fue el que se registro en ...')
+  smtp.send_message()"""
+  
   ser_data = user_schema.dump(user)  
-
   token = Auth.generate_token(ser_data.get('id'))  
-
-  return custom_response({'jwt_token': token}, 201)
+  #return custom_response({'SUCCESS': 'Registro exito, confirme la cuenta desde el correo.'}, 201)
+  return custom_response({'jwt_token': token, 'user_id': ser_data.get('id')}, 201)
+  
 
 @user_api.route('/', methods=['GET'])
 @Auth.auth_required
@@ -47,7 +52,7 @@ def login():
   req_data = request.get_json()
   print(req_data)
   
-  data = user_schema.load(req_data, partial=("telephone",))
+  data = user_schema.load(req_data, partial=("telephone","active","rol_id",))
 
   print(data)
 
@@ -69,8 +74,34 @@ def login():
   
   token = Auth.generate_token(ser_data.get('id'))
 
-  return custom_response({'jwt_token': token}, 200)
+  return custom_response({'jwt_token': token, 'user_id': ser_data.get('id')}, 200)
 
+'''@user_api.route('/password', methods=['POST'])
+@Auth.auth_required
+def rec_password():
+  req_data = request.get_json()
+  
+  data = user_schema.load(req_data, partial=("telephone","active","rol_id",))
+  
+  if not data.get('email') or not data.get('password'):
+    return custom_response({'error': 'you need email and password to sign in'}, 400)
+  
+  user = UserModel.get_user_by_email(data.get('email'))  
+
+  if not user:
+    return custom_response({'error': 'invalid credentials'}, 400)
+  
+  if not user.check_hash(data.get('password')):
+    return custom_response({'error': 'invalid credentials'}, 400)
+  
+  
+  ser_data = user_schema.dump(user)
+  
+  
+  token = Auth.generate_token(ser_data.get('id'))
+
+  return custom_response({'jwt_token': token, 'user_id': ser_data.get('id')}, 200)
+'''
 @user_api.route('/<int:user_id>', methods=['GET'])
 @Auth.auth_required
 def get_a_user(user_id):

@@ -11,4 +11,4 @@ ma = Marshmallow()
 #Encriptado de contraseña de usuario
 bcrypt = Bcrypt()
 
-__all__ = ['UserModel', 'BlogpostModel']
+__all__ = ['RolModel','UserModel', 'InfoAdicionalModel']

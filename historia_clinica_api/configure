@@ -1,0 +1,20 @@
+$ sudo service postgresql-service start
+$ sudo service postgresql-service stop
+$ sudo service postgresql-service status
+$ sudo service postgresql-service restart
+$ sudo service postgresql-service reload
+
+
+$ pipenv shell
+
+
+
+$ export FLASK_ENV=development
+$ export DATABASE_URL=postgres://dd:postgres@localhost:5432/clinica_api_db
+$ export JWT_SECRET_KEY=hhgaghhgsdhdhdd
+
+
+usuarios
+1 Paciente
+2 Hospital
+3 Medico

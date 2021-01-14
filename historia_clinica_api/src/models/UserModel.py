@@ -4,8 +4,8 @@ import datetime
 from . import db
 from . import ma
 from ..app import bcrypt #Encriptado de contraseña
-from .BlogpostModel import BlogpostSchema #Relaciones bd
-
+from .InfoAdicionalModel import InfoAdicionalSchema #Relaciones bd
+from .RolModel import RolSchema
 
 class UserModel(db.Model):
   """
@@ -19,10 +19,15 @@ class UserModel(db.Model):
   #name = db.Column(db.String(128), nullable=False)
   telephone = db.Column(db.String(20), nullable=False)
   email = db.Column(db.String(128), unique=True, nullable=False)
-  password = db.Column(db.String(128), nullable=True)
+  password = db.Column(db.String(128), nullable=True) 
+  active = db.Column(db.Boolean, default=False, nullable=False)
   created_at = db.Column(db.DateTime)
-  modified_at = db.Column(db.DateTime)
-  blogposts = db.relationship('BlogpostModel', backref='users', lazy=True)
+  modified_at = db.Column(db.DateTime)  
+  info_adicional = db.relationship('InfoAdicionalModel', backref='users', lazy=True)
+  #blogposts = db.relationship('BlogpostModel', backref='users', lazy=True)
+  rol_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+  rol = db.relationship("RolModel",  backref="users")
+  
 
   # class constructor
   def __init__(self, data):
@@ -34,6 +39,7 @@ class UserModel(db.Model):
     self.email = data.get('email')
     #self.password = data.get('password')
     self.password = self.__generate_hash(data.get('password'))
+    self.rol_id = data.get('rol_id')
     self.created_at = datetime.datetime.utcnow()
     self.modified_at = datetime.datetime.utcnow()
 
@@ -71,6 +77,12 @@ class UserModel(db.Model):
   def get_user_by_email(em):
     return UserModel.query.filter_by(email=em).first()
 
+  @staticmethod
+  def get_rol_by_id(id):
+    user = UserModel.query.get(id)        
+    rol = user.rol_id        
+    return rol
+  
   def __repr(self):
     return '<id {}>'.format(self.id)
 
@@ -82,7 +94,11 @@ class UserSchema(ma.Schema):
   #name = fields.Str(required=True)
   telephone = fields.Str(required=True)
   email = fields.Email(required=True)
-  password = fields.Str(required=True)
+  password = fields.Str(required=True) 
+  rol_id = fields.Int(required=True)  
+  active = fields.Bool(required=True)  
   created_at = fields.DateTime(dump_only=True)
   modified_at = fields.DateTime(dump_only=True)
-  blogposts = fields.Nested(BlogpostSchema, many=True)
+  info_adicional = fields.Nested(InfoAdicionalSchema, many=True)
+  #blogposts = fields.Nested(BlogpostSchema, many=True)
+  rol = fields.Nested(RolSchema, many=False)
