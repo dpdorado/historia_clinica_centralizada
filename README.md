@@ -91,4 +91,6 @@ La contraseña de los usuarios se guarda encriptada para su seguridad.
 > Las pruebas de ejecución de la API se pueden ver en la carpeta evidencias. Se utiliza el software Postman.
 
 
+> # by Daniel Dorado
+
 
