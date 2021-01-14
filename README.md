@@ -74,7 +74,7 @@ La contraseña de los usuarios se guarda encriptada para su seguridad.
 
 6. No se implemento.
 
-7. Permiti a un usuario de Tipo Médico registrar observaciones médicas y estado de salud de un usuario de tipo Paciente.
+7. Permite a un usuario de Tipo Médico registrar observaciones médicas y estado de salud de un usuario de tipo Paciente.
 
 8. Permite a los usuarios consultar todos los registros de observaciones médicas registradas. 
 
