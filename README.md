@@ -87,6 +87,19 @@ La contraseña de los usuarios se guarda encriptada para su seguridad.
 9. No se implemento.
 
 # 
+# Leguajes y tecnología usada
+
+> Python 
+
+> Flask
+
+>PostgreSQL
+
+* Otros 
+
+>Pipenv
+
+#
 
 > Las pruebas de ejecución de la API se pueden ver en la carpeta evidencias. Se utiliza el software Postman.
 
