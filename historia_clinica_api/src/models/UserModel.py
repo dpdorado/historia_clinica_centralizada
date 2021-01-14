@@ -25,6 +25,8 @@ class UserModel(db.Model):
   modified_at = db.Column(db.DateTime)  
   info_adicional = db.relationship('InfoAdicionalModel', backref='users', lazy=True)
   #blogposts = db.relationship('BlogpostModel', backref='users', lazy=True)
+  user_creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+  #creator = db.relationship("UserModel",  backref="users") 
   rol_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
   rol = db.relationship("RolModel",  backref="users")
   
@@ -40,6 +42,7 @@ class UserModel(db.Model):
     #self.password = data.get('password')
     self.password = self.__generate_hash(data.get('password'))
     self.rol_id = data.get('rol_id')
+    self.user_creator_id = data.get('user_creator_id')
     self.created_at = datetime.datetime.utcnow()
     self.modified_at = datetime.datetime.utcnow()
 
@@ -82,6 +85,14 @@ class UserModel(db.Model):
     user = UserModel.query.get(id)        
     rol = user.rol_id        
     return rol
+
+  @staticmethod
+  def get_ids_medicos_hospital(id_h):
+    ids = []
+    registros = UserModel.query.filter_by(user_creator_id=id_h).all()
+    for user in registros:
+      ids.append(user.id)        
+    return ids
   
   def __repr(self):
     return '<id {}>'.format(self.id)
@@ -99,6 +110,8 @@ class UserSchema(ma.Schema):
   active = fields.Bool(required=True)  
   created_at = fields.DateTime(dump_only=True)
   modified_at = fields.DateTime(dump_only=True)
+  user_creator_id = fields.Int(required=False)
   info_adicional = fields.Nested(InfoAdicionalSchema, many=True)
   #blogposts = fields.Nested(BlogpostSchema, many=True)
   rol = fields.Nested(RolSchema, many=False)
+  #creator = fields.Nested('UserSchema', many=False)

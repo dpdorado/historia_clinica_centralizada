@@ -3,6 +3,7 @@ from marshmallow import fields, Schema
 import datetime
 from . import db
 from . import ma
+
 class InfoAdicionalModel(db.Model):
     """
     InfoAdicional Model

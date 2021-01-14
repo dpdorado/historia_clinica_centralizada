@@ -18,3 +18,9 @@ usuarios
 1 Paciente
 2 Hospital
 3 Medico
+
+migraciones
+
+python manage.py db init
+python manage.py db migrate
+python manage.py db upgrade

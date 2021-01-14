@@ -52,7 +52,7 @@ def login():
   req_data = request.get_json()
   print(req_data)
   
-  data = user_schema.load(req_data, partial=("telephone","active","rol_id",))
+  data = user_schema.load(req_data, partial=("telephone","active","rol_id","user_creator_id",))
 
   print(data)
 

@@ -32,11 +32,12 @@ def create(user_id):
     return custom_response(message, 400)
   
   user = UserModel(data)
-  user.save()  
+  user.save()
+  user.update({'user_creator_id' : user_id}) #Agregar el id del hospital
   
   ser_data = user_schema.dump(user)  
   
-  return custom_response({'SUCCESS': 'Registro de médico exitoso.'}, 201)  
+  return custom_response({'SUCCESS': 'Registro de médico exitoso.', 'user_id': ser_data.get('id')}, 201)  
   
 
 def custom_response(res, status_code):

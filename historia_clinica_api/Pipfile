@@ -15,6 +15,7 @@ pyjwt = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 flask-mail = "*"
+jsonify = "*"
 
 [dev-packages]
 
